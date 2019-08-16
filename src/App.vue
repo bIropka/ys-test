@@ -1,28 +1,45 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app">
+        <Workspace v-bind:text='text'
+                   v-bind:backgroundColor='backgroundColor'
+                   v-bind:textColor='textColor'
+                   v-on:changeColor='changeColor'/>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+    import Workspace from './components/Workspace.vue';
+    import Colors from './services/colors';
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    const colors = new Colors();
+
+    export default {
+        name: 'app',
+        components: {
+            Workspace
+        },
+        data: function () {
+            return {
+                text: 'Hey there',
+                backgroundColor: '#fff',
+                textColor: '#000'
+            }
+        },
+        methods: {
+            changeColor: function () {
+              const newBackgroundColor = colors.getRandomColor();
+              const newTextColor = colors.getContrastColor(newBackgroundColor);
+              this.backgroundColor = newBackgroundColor;
+              this.textColor = newTextColor;
+            }
+        }
+    }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 </style>
